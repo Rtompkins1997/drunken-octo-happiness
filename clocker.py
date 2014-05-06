@@ -8,7 +8,7 @@ import time
 import datetime
 
 buff = ''
-volenteers = []
+volunteer = []
 TIMER_ID = 1
 TIMER_ID1 = 2
 update = False
@@ -111,15 +111,15 @@ class gui(wx.Frame):
                 pass
                     
             if update:
-                volenteers.append(buff)
-                volenteers.append(time.time())
+                volunteer.append(buff)
+                volunteer.append(time.time())
             else:
                         
-                self.AddToDatabase(volenteers[index], long(time.time() - volenteers[index + 1]))
-                volenteers.remove(volenteers[index + 1])
-                volenteers.remove(buff)
+                self.AddToDatabase(volunteer[index], long(time.time() - volenteers[index + 1]))
+                volunteer.remove(volunteer[index + 1])
+                volunteer.remove(buff)
                 
-            print volenteers
+            print volunteer
             global go
         
         
@@ -218,5 +218,5 @@ class gui(wx.Frame):
 if __name__ == '__main__':
     
     app = wx.App()
-    s = gui(None,title='Fiddleheads Volenteer Discouts')
+    s = gui(None,title='Fiddleheads Volunteer Discouts')
     app.MainLoop()
