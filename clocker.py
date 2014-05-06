@@ -8,7 +8,7 @@ import time
 import datetime
 
 buff = ''
-volenteers = []
+volunteer = []
 TIMER_ID = 1
 TIMER_ID1 = 2
 update = False
