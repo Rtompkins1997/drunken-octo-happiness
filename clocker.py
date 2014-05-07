@@ -1,14 +1,14 @@
 '''
 Created on Apr 18, 2014
 
-@author: vittorio
+@author: VittorioPapandrea&Rtompkins1997
 '''
 import wx
 import time
 import datetime
 
 buff = ''
-volunteer = []
+volunteers = []
 TIMER_ID = 1
 TIMER_ID1 = 2
 update = False
@@ -16,20 +16,21 @@ go = True
 
 class gui(wx.Frame):
     def __init__(self, parent, title):
-        super(gui, self).__init__(parent, title=title, size=(530, 800))
-        self.pnl = wx.Panel(self)
+        super(gui, self).__init__(parent, title=title, size=(1440, 860), pos=(0,0))
+	self.pnl = wx.Panel(self)
+	self.Maximize(True)
         
-        self.lc = wx.ListCtrl(self.pnl, -1, style=wx.LC_REPORT, size=(390,350), pos=(10,10))
+        self.lc = wx.ListCtrl(self.pnl, -1, style=wx.LC_REPORT, size=(540,850), pos=(10,10))
         self.lc.InsertColumn(0, 'User')
         self.lc.InsertColumn(1, 'Time Spent')
         
-        self.lc1 = wx.ListCtrl(self.pnl, -1, style=wx.LC_REPORT, size=(390,350), pos=(10,380))
+        self.lc1 = wx.ListCtrl(self.pnl, -1, style=wx.LC_REPORT, size=(540,850), pos=(890,10))
         self.lc1.InsertColumn(0, 'User')
         self.lc1.InsertColumn(1, 'Time Spent')
         self.lc1.InsertColumn(2, 'Savings')
         
-        self.new_user = wx.Button(self.pnl, label='New User', pos=(410,10))
-        self.clock = wx.Button(self.pnl, label='Clock In / Out', pos=(410,40))
+        self.new_user = wx.Button(self.pnl, label='New User', pos=(675,10))
+        self.clock = wx.Button(self.pnl, label='Clock In / Out', pos=(570,360),size=(300, 100))
         self.clock.Bind(wx.EVT_BUTTON, self.go_)
         
         self.new_user.Bind(wx.EVT_BUTTON, self.newUser)
@@ -101,7 +102,7 @@ class gui(wx.Frame):
                 
             try:
                         
-                for v in volenteers[::2]:
+                for v in volunteers[::2]:
                     if v == buff:
                         update = False
                         break;
@@ -111,15 +112,15 @@ class gui(wx.Frame):
                 pass
                     
             if update:
-                volunteer.append(buff)
-                volunteer.append(time.time())
+                volunteers.append(buff)
+                volunteers.append(time.time())
             else:
                         
-                self.AddToDatabase(volunteer[index], long(time.time() - volenteers[index + 1]))
-                volunteer.remove(volunteer[index + 1])
-                volunteer.remove(buff)
+                self.AddToDatabase(volunteers[index], long(time.time() - volunteers[index + 1]))
+                volunteers.remove(volunteers[index + 1])
+                volunteers.remove(buff)
                 
-            print volunteer
+            print volunteers
             global go
         
         
@@ -204,7 +205,7 @@ class gui(wx.Frame):
         self.lc.SetColumnWidth(0,190)
         self.lc.SetColumnWidth(1,100)
         
-        for v in volenteers[::2]:
+        for v in volunteers[::2]:
             
             for l in lines:
                 if str(l).startswith(v):
@@ -212,11 +213,11 @@ class gui(wx.Frame):
                     break;
             
             pos = self.lc.InsertStringItem(0, v)
-            self.lc.SetStringItem(pos, 1, str(long(long(time.time())) - long(volenteers[index + 1])) + ' seconds' )
+            self.lc.SetStringItem(pos, 1, str(long(long(time.time())) - long(volunteers[index + 1])) + ' seconds' )
             index += 2
 
 if __name__ == '__main__':
     
     app = wx.App()
-    s = gui(None,title='Fiddleheads Volunteer Discouts')
+    s = gui(None,title='Fiddleheads Volunteer Hour Clocker')
     app.MainLoop()
